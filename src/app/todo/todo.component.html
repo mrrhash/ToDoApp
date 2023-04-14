@@ -1,0 +1,73 @@
+<div class="container-fluid">
+  <div class="row">
+    <div style="height: 90vh;" class="col-md-3 bg-dark">
+      <div class="card p-2 text-center mt-3">
+        <form [formGroup]="todoForm">
+          <input type="text" class="form-control form-control-lg" formControlName='item' placeholder="Add Your Task Here...">
+          <button *ngIf="!isEditEnabled" (click)="addTask()" type="button" [disabled]="todoForm.invalid" class="btn btn-success mt-3 " >Add</button>
+          <button *ngIf="isEditEnabled" (click)="updateTask()" type="button" [disabled]="todoForm.invalid" class="btn btn-primary mt-3 " >Update</button>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-9 mt-3">
+      <div cdkDropListGroup>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="example-container">
+                <h2  class="head-title text-center">TODO  <span *ngIf="todoList.length > 0"> -- {{todoList.length}}</span> </h2>
+
+                <div
+                  cdkDropList
+                  [cdkDropListData]="todoList"
+                  class="example-list"
+                  (cdkDropListDropped)="drop($event)">
+                  <div class="example-box" *ngFor="let item of todoList;let i = index" cdkDrag>{{item.description}}
+                    <div class="box">
+                      <i (click)="deleteTask(i)" class="fa fa-trash " style="font-size:20px;color:red;cursor:pointer"></i>&nbsp;&nbsp;
+                      <i (click)="onEdit(item,i)" class="fa fa-edit " style="font-size:20px;color:blue;cursor:pointer"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="example-container">
+                <h2  class="head-title text-center">IN PROGRESS  <span *ngIf="inProgress.length > 0">--{{inProgress.length}}</span> </h2>
+
+                <div
+                  cdkDropList
+                  [cdkDropListData]="inProgress"
+                  class="example-list"
+                  (cdkDropListDropped)="drop($event)">
+                  <div class="example-box" *ngFor="let item of inProgress;let i = index" cdkDrag>{{item.description}}
+                    <i (click)="deleteInProgressTask(i)" class="fa fa-trash " style="font-size:20px;color:red;cursor:pointer"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="example-container">
+                <h2 class="head-title text-center" >DONE <span *ngIf="done.length > 0">--{{done.length}}</span> </h2>
+
+                <div
+                  cdkDropList
+                  [cdkDropListData]="done"
+                  class="example-list"
+                  (cdkDropListDropped)="drop($event)">
+                  <div class="example-box" *ngFor="let item of done;let i = index" cdkDrag>{{item.description}}
+                    <div class="box">
+                      <i (click)="deleteDoneTask(i)" class="fa fa-trash " style="font-size:20px;color:red;cursor:pointer"></i>&nbsp;&nbsp;
+                      <i class="fa fa-check-circle " style="font-size:20px;color:green;cursor:pointer"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
